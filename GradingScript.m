@@ -4,9 +4,9 @@ format compact
 clc; clear all; close all;
     
 % the test function name, change as appropriate
-testFuncName = 'luFactor';
+testFuncName = 'Simpson'; %'luFactor';
 % directory to look in, change as appropriate
-dir_loc = 'hw15';
+dir_loc = 'hw21';
 % the file extension
 f_ext = '.m';
 
@@ -59,15 +59,15 @@ for file = files'
     if contains(string(fstr), "clc") || contains(string(fstr), "clear all") && ~contains(string(fstr), "%")
         err_notes = [err_notes, 'Never put "clc" or "clear all" in a function!', ' '];
     end
-    % check use of certine function
-    if contains(string(fstr), "lu(")
-        err_notes = [err_notes, 'Suspected use of matlab lu function!', ' '];
-    end
+%     % check use of certine function
+%     if contains(string(fstr), "lu(")
+%         err_notes = [err_notes, 'Suspected use of matlab lu function!', ' '];
+%     end
 
     % run a test script
     score = -1;
     try 
-        [score, notes] = luGrader();
+        [score, notes] = simpsonGrader(); %luGrader();
         % Print results
         fprintf('%s\n', notes);
         % make sure possitive grade
