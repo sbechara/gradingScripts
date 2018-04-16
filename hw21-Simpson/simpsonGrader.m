@@ -50,21 +50,21 @@ try
     if ~isempty(warnMsg)
         fprintf('  Correct warning for trapazoid rule.\n')
     else
-        notes = [notes, 'No warning for trapazoid rule, -10.',  ' '];
-        points = points - 10;
+        notes = [notes, 'No warning for trapazoid rule, -5.',  ' '];
+        points = points - 5;
     end
 
     % check value
     if norm(Ie - I) < tol
         fprintf('  Correct trapazoid rule.\n')
     else
-        notes = [notes, 'Incorrect trapazoid rule, -20.',  ' '];
+        notes = [notes, 'Incorrect trapazoid rule, expected value of ' num2str(Ie), ' but got ', num2str(I),  ' instead, -20. '];
         points = points - 20;
     end
 
 catch
-    notes = [notes, 'Trapazoid rule failed, -30.',  ' '];
-    points = points - 30;
+    notes = [notes, 'Trapazoid rule failed, -25.',  ' '];
+    points = points - 25;
 end
 %% Check simpsons rule
 x = [0, 0.5,  1];
@@ -89,7 +89,7 @@ try
     if norm(Ie - I) < tol
         fprintf('  Correct simpson 1/3 rule.\n')
     else
-        notes = [notes, 'Incorrect simpson 1/3, -20.',  ' '];
+        notes = [notes, 'Incorrect simpson 1/3, expected value of ' num2str(Ie), ' but got ', num2str(I),  ' instead, -20. '];
         points = points - 20;
     end
     
@@ -117,21 +117,21 @@ try
     if ~isempty(warnMsg)
         fprintf('  Correct warning for trapazoid rule.\n')
     else
-        notes = [notes, 'No warning for trapazoid rule, -10.',  ' '];
-        points = points - 10;
+        notes = [notes, 'No warning for trapazoid rule, -5.',  ' '];
+        points = points - 5;
     end
 
     % check value from simpsons rule is more accurate than trapazoid rule
     if norm(Ie - I) < norm(Ia - I)
         fprintf('  Correct composite integration.\n')
     else
-        notes = [notes, 'Incorrect composite integration, -20.',  ' '];
+        notes = [notes, 'Incorrect composite integration, expected value less than ' num2str(Ia), ' but got ',  num2str(I), ' instead, -20. '];
         points = points - 20;
     end
 
 catch
-    notes = [notes, 'Composite integration failed, -30.',  ' '];
-    points = points - 30;
+    notes = [notes, 'Composite integration failed, -25.',  ' '];
+    points = points - 25;
 end
 
 end
