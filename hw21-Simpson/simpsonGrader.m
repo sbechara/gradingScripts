@@ -40,12 +40,24 @@ y = [0, 2];
 % exact solution
 Ie = trapz(x, y);
 
+t3_passed = 0;
 fprintf('Third Test:\n')
 try
     lastwarn('');
     evalc('I = Simpson(x, y)');
     warnMsg = lastwarn;
+catch
+    try 
+        evalc('I = Simpson(transpose(x), transpose(y))');
+        warnMsg = lastwarn;
+    catch
+        notes = [notes, 'Trapazoid rule failed, -25.',  ' '];
+        points = points - 25;
+        t3_passed = -1;
+    end
+end
 
+if(t3_passed ~= -1)
     % check for trapz use warning
     if ~isempty(warnMsg)
         fprintf('  Correct warning for trapazoid rule.\n')
@@ -57,15 +69,13 @@ try
     % check value
     if norm(Ie - I) < tol
         fprintf('  Correct trapazoid rule.\n')
+        t3_passed = 1;
     else
         notes = [notes, 'Incorrect trapazoid rule, expected value of ' num2str(Ie), ' but got ', num2str(I),  ' instead, -20. '];
         points = points - 20;
     end
-
-catch
-    notes = [notes, 'Trapazoid rule failed, -25.',  ' '];
-    points = points - 25;
 end
+
 %% Check simpsons rule
 x = [0, 0.5,  1];
 y = [0, 1, 2];
@@ -73,12 +83,24 @@ y = [0, 1, 2];
 % exact solution
 Ie = trapz(x, y);
 
+t4_passed = 0;
 fprintf('Fourth Test:\n')
 try
     lastwarn('');
     evalc('I = Simpson(x, y)');
     warnMsg = lastwarn;
-    
+catch
+    try 
+        evalc('I = Simpson(transpose(x), transpose(y))');
+        warnMsg = lastwarn;
+    catch
+        notes = [notes, 'Simpson rule failed, -20.',  ' '];
+        points = points - 20;
+        t4_passed = -1;
+    end
+end
+
+if t4_passed ~= -1
     % check for warning
     if ~isempty(warnMsg)
         notes = [notes, 'False warning given, -10.',  ' '];
@@ -88,14 +110,11 @@ try
     % check value
     if norm(Ie - I) < tol
         fprintf('  Correct simpson 1/3 rule.\n')
+        t4_passed = 1;
     else
         notes = [notes, 'Incorrect simpson 1/3, expected value of ' num2str(Ie), ' but got ', num2str(I),  ' instead, -20. '];
         points = points - 20;
     end
-    
-catch
-    notes = [notes, 'Simpson rule failed, -20.',  ' '];
-    points = points - 20;
 end
 
 %% Check a real problem
@@ -107,12 +126,24 @@ Ie = 1.0;
 % trap rule is an over estimate
 Ia = trapz(x, y);
 
+t5_passed = 0;
 fprintf('Fifth Test:\n')
 try
     lastwarn('');
     evalc('I = Simpson(x, y)');
     warnMsg = lastwarn;
+catch
+    try 
+        evalc('I = Simpson(transpose(x), transpose(y))');
+        warnMsg = lastwarn;
+    catch
+        notes = [notes, 'Composite integration failed, -25.',  ' '];
+        points = points - 25;
+        t5_passed = -1;
+    end
+end
 
+if t5_passed ~= -1
     % check for warning
     if ~isempty(warnMsg)
         fprintf('  Correct warning for trapazoid rule.\n')
@@ -124,15 +155,17 @@ try
     % check value from simpsons rule is more accurate than trapazoid rule
     if norm(Ie - I) < norm(Ia - I)
         fprintf('  Correct composite integration.\n')
+        t5_passed = 1;
     else
         notes = [notes, 'Incorrect composite integration, expected value less than ' num2str(Ia), ' but got ',  num2str(I), ' instead, -20. '];
         points = points - 20;
     end
-
-catch
-    notes = [notes, 'Composite integration failed, -25.',  ' '];
-    points = points - 25;
 end
+
+% if t5_passed && ~(t3_passed && t4_passed)
+%     notes = [notes, 'Code doesnt work for single integration terms, but does work over all, +10. '];
+%     points = points + 10;
+% end
 
 end
 

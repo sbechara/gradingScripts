@@ -19,6 +19,9 @@ gradeFile = fopen([dir_loc,'Grades.dat'],'w');
 fprintf(gradeFile, 'Name:\tGrade:\tNotes\n');
 diary([dir_loc,'Output.dat'])
 
+% calc mean
+avg = 0;
+
 %loop all files
 files = dir([dir_loc, '/*', f_ext]);
 for file = files'
@@ -80,8 +83,10 @@ for file = files'
 
     fprintf(' -- Recived final grade of %f -- \n', score*score_mod+score_adj);
     fprintf(gradeFile, '%s\t%f\t%s\n', nameData(1), score*score_mod+score_adj, [err_notes, notes]);
+    avg = avg + score*score_mod+score_adj;
     % delete the file
     delete(testFuncFile)
     % make sure no plots are created
     close all
 end
+fprintf('\nAverge score of %f\n', avg/size(files,1))
