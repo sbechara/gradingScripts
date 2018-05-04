@@ -3,11 +3,18 @@
 format compact
 clc; clear all; close all;
     
+%% Need to define the function to test (Set this section!!)
+% Handle to the grading script
+% the grading script must take no inputs, but assumes the test function
+% can be called. It outputs a score and set of notes
+graderFunc = @heunGrader;
 % the test function name, change as appropriate
-testFuncName = 'Simpson'; %'luFactor';
+testFuncName = 'Heun'; %'luFactor'; %'Simpson';
 % directory to look in, change as appropriate
-dir_loc = 'hw21';
-% the file extension
+dir_loc = 'hw23';
+
+%% Other setup stuff
+% the file extension, this should not change
 f_ext = '.m';
 
 testFuncFile = [testFuncName, f_ext];
@@ -22,6 +29,7 @@ diary([dir_loc,'Output.dat'])
 % calc mean
 avg = 0;
 
+%% Test each file
 %loop all files
 files = dir([dir_loc, '/*', f_ext]);
 for file = files'
@@ -70,7 +78,7 @@ for file = files'
     % run a test script
     score = -1;
     try 
-        [score, notes] = simpsonGrader(); %luGrader();
+        [score, notes] = graderFunc(); %simpsonGrader(); %luGrader();
         % Print results
         fprintf('%s\n', notes);
         % make sure possitive grade
